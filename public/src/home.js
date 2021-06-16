@@ -6,6 +6,11 @@ function getTotalAccountsCount(accounts) {
   return accounts.length;
 }
 
+//HELPER FUNCTION
+function _sortByCount(array) {
+  return array.sort((countA, countB) => countB.count - countA.count);
+}
+
 function getBooksBorrowedCount(books) {
   let count = books.reduce((acc, book) => {
     if (!book.borrows[0].returned) acc++;
@@ -26,8 +31,8 @@ function getMostCommonGenres(books) {
       genres.push({ name: book.genre, count: 1 });
     }
   });
-  genres.sort((a, b) => b.count - a.count);
-  return genres.slice(0, 5);
+  let sortGenres = _sortByCount(genres); //Helper Function
+  return sortGenres.slice(0, 5);
 }
 
 function getMostPopularBooks(books) {
@@ -35,8 +40,8 @@ function getMostPopularBooks(books) {
   books.forEach((book) => {
     popularBooks.push({ name: book.title, count: book.borrows.length });
   });
-  popularBooks.sort((a, b) => b.count - a.count);
-  return popularBooks.slice(0, 5);
+  let sortBooks = _sortByCount(popularBooks); //Helper Function
+  return sortBooks.slice(0, 5);
 }
 
 function getMostPopularAuthors(books, authors) {
